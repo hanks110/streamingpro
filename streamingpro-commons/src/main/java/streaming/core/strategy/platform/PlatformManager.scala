@@ -89,7 +89,6 @@ class PlatformManager {
       jobs = params.getParam("streaming.jobs").split(",")
 
 
-
     lastStreamingRuntimeInfo match {
       case Some(ssri) =>
         runtime.configureStreamingRuntimeInfo(ssri)
@@ -112,10 +111,21 @@ class PlatformManager {
     }
 
 
+    /*
+        Once streaming.mode.application.fails_all is set true,
+        Any job fails will result the others not be executed.
+     */
+    val failsAll = params.getBooleanParam("streaming.mode.application.fails_all", false)
+    StrategyDispatcher.throwsException = failsAll
+
     val jobCounter = new AtomicInteger(0)
     jobs.foreach {
       jobName =>
-
+        /*
+        todo: We should check if it runs on Yarn, it true, then
+              convert the exception to Yarn exception otherwise the
+              Yarn will show the status success even there are exceptions thrown
+         */
         dispatcher.dispatch(Dispatcher.contextParams(jobName))
         val index = jobCounter.get()
 
@@ -205,6 +215,8 @@ object PlatformManager {
 
   def SPARK = "spark"
 
+  def MLSQL = "mlsql"
+
   def FLINK_STREAMING = "flink_streaming"
 
   def platformNameMapping = Map[String, String](
@@ -212,7 +224,8 @@ object PlatformManager {
     SPAKR_STRUCTURED_STREAMING -> "streaming.core.strategy.platform.SparkStructuredStreamingRuntime",
     FLINK_STREAMING -> "streaming.core.strategy.platform.FlinkStreamingRuntime",
     SPAKR_STREAMING -> "streaming.core.strategy.platform.SparkStreamingRuntime",
-    SPARK -> "streaming.core.strategy.platform.SparkRuntime"
+    SPARK -> "streaming.core.strategy.platform.SparkRuntime",
+    MLSQL -> "streaming.core.strategy.platform.MLSQLRuntime"
   )
 
 }

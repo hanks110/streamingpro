@@ -13,15 +13,19 @@ statement
 
 
 sql
-    : ('load'|'LOAD') format '.' path 'options'? expression? booleanExpression*  'as' tableName
-    | ('save'|'SAVE') (overwrite | append | errorIfExists |ignore)* tableName 'as' format '.' path 'options'? expression? booleanExpression* ('partitionBy' col)?
-    | ('select'|'SELECT') ~(';')* 'as' tableName
-    | ('insert'|'INSERT') ~(';')*
-    | ('create'|'CREATE') ~(';')*
-    | ('set'|'SET') ~(';')*
-    | ('connect'|'CONNECT') format 'where'? expression? booleanExpression* ('as' db)?
-    | ('train'|'TRAIN') tableName 'as' format '.' path 'where'? expression? booleanExpression*
-    | ('register'|'REGISTER') format '.' path 'as' functionName
+    : 'load' format '.' path ('options'|'where')? expression? booleanExpression* 'as' tableName
+    | 'save' (overwrite | append | errorIfExists |ignore)* tableName 'as' format '.' path ('options'|'where')? expression? booleanExpression* (('partitionBy'|'partitionby') col)?
+    | 'select' ~(';')* 'as' tableName
+    | 'insert' ~(';')*
+    | 'create' ~(';')*
+    | 'drop' ~(';')*
+    | 'refresh' ~(';')*
+    | 'set' setKey '=' setValue ('options'|'where')? expression? booleanExpression*
+    | 'connect' format ('options'|'where')? expression? booleanExpression* ('as' db)?
+    | ('train'|'run'|'predict') tableName 'as' format '.' path ('options'|'where')? expression? booleanExpression* asTableName*
+    | 'register' format '.' path 'as' functionName ('options'|'where')? expression? booleanExpression*
+    | 'unregister' format '.' path ('options'|'where')? expression? booleanExpression*
+    | 'include' format '.' path ('options'|'where')? expression? booleanExpression*
     |  SIMPLE_COMMENT
     ;
 
@@ -46,7 +50,7 @@ booleanExpression
     ;
 
 expression
-    : identifier '=' STRING
+    : qualifiedName '=' (STRING|BLOCK_STRING)
     ;
 
 ender
@@ -61,8 +65,20 @@ path
     : quotedIdentifier | identifier
     ;
 
+setValue
+    : qualifiedName | quotedIdentifier | STRING | BLOCK_STRING
+    ;
+
+setKey
+    : qualifiedName
+    ;
+
 db
     :qualifiedName | identifier
+    ;
+
+asTableName
+    : 'as' tableName
     ;
 
 tableName
@@ -98,6 +114,10 @@ quotedIdentifier
 STRING
     : '\'' ( ~('\''|'\\') | ('\\' .) )* '\''
     | '"' ( ~('"'|'\\') | ('\\' .) )* '"'
+    ;
+
+BLOCK_STRING
+    : '\'\'\'' ~[+] .*? '\'\'\''
     ;
 
 IDENTIFIER

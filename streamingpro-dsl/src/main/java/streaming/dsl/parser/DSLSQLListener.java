@@ -1,4 +1,4 @@
-// Generated from /Users/allwefantasy/CSDNWorkSpace/streamingpro/streamingpro-dsl/src/main/resources/DSLSQL.g4 by ANTLR 4.5.3
+// Generated from DSLSQL.g4 by ANTLR 4.7.1
 
 package streaming.dsl.parser;
 
@@ -120,6 +120,26 @@ public interface DSLSQLListener extends ParseTreeListener {
 	 */
 	void exitPath(DSLSQLParser.PathContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link DSLSQLParser#setValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterSetValue(DSLSQLParser.SetValueContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DSLSQLParser#setValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitSetValue(DSLSQLParser.SetValueContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link DSLSQLParser#setKey}.
+	 * @param ctx the parse tree
+	 */
+	void enterSetKey(DSLSQLParser.SetKeyContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DSLSQLParser#setKey}.
+	 * @param ctx the parse tree
+	 */
+	void exitSetKey(DSLSQLParser.SetKeyContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link DSLSQLParser#db}.
 	 * @param ctx the parse tree
 	 */
@@ -129,6 +149,16 @@ public interface DSLSQLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitDb(DSLSQLParser.DbContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link DSLSQLParser#asTableName}.
+	 * @param ctx the parse tree
+	 */
+	void enterAsTableName(DSLSQLParser.AsTableNameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DSLSQLParser#asTableName}.
+	 * @param ctx the parse tree
+	 */
+	void exitAsTableName(DSLSQLParser.AsTableNameContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link DSLSQLParser#tableName}.
 	 * @param ctx the parse tree

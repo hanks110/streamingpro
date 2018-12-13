@@ -122,3 +122,18 @@ project/plugins/project/
 
 /streamingpro-dsl/gen
 /streamingpro-hbase/streamingpro-hbase.iml
+/tasks
+
+/jni
+/streamingpro-spark-2.0/src/main/resources-local/python/python_temp.pickle
+streamingpro-crawler/tasks/
+streamingpro-commons/logs
+streamingpro-dsl/logs/
+streamingpro-dsl-legacy/logs/
+streamingpro-api/logs
+
+dev/create-release/do-release.sh
+dev/mlsqltestssupport/__pycache__/
+dev/create-release/streamingpro*
+__pycache__
+streamingpro-mlsql/logs/template
